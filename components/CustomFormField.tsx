@@ -7,6 +7,9 @@ import 'react-datepicker/dist/react-datepicker.css'
 import 'react-phone-number-input/style.css'
 import { FormFieldType } from './forms/PatientForm'
 import { Input } from './ui/input'
+import { Textarea } from './ui/textarea'
+import { Checkbox } from './ui/checkbox'
+import { Select, SelectContent, SelectTrigger, SelectValue } from './ui/select'
 import {
   FormControl,
   FormField,
@@ -14,8 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from './ui/form'
-import { Select, SelectContent, SelectTrigger, SelectValue } from './ui/select'
-import { Textarea } from './ui/textarea'
 
 interface CustomProps {
   control: Control<any>
@@ -117,6 +118,21 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             className='shad-textArea'
             disabled={props.disabled}
           />
+        </FormControl>
+      )
+    case FormFieldType.CHECKBOX:
+      return (
+        <FormControl>
+          <div className='flex items-center gap-4'>
+            <Checkbox
+              id={props.name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <label htmlFor={props.name} className='checkbox-label'>
+              {props.label}
+            </label>
+          </div>
         </FormControl>
       )
 
