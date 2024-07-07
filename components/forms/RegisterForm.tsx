@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { GenderOptions } from '@/constants'
+import { Doctors, GenderOptions } from '@/constants'
 import { createUser } from '@/lib/actions/patient.actions'
 import { UserFormValidation } from '@/lib/validation'
 import CustomFormField from '../CustomFormField'
@@ -15,6 +16,7 @@ import { FormFieldType } from './PatientForm'
 import { Form, FormControl } from '../ui/form'
 import { Label } from '../ui/label'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
+import { SelectItem } from '../ui/select'
 
 export function RegisterForm({ user }: { user: User }) {
   const router = useRouter()
@@ -170,6 +172,93 @@ export function RegisterForm({ user }: { user: User }) {
               name='emergencyContactNumber'
               label='Emergency Contact Number'
               placeholder='(555) 123-4567'
+            />
+          </div>
+        </section>
+
+        <section className='space-y-6'>
+          <div className='mb-9 space-y-1'>
+            <h2 className='sub-header'>Medical Information</h2>
+          </div>
+
+          {/* PRIMARY CARE PHYSICIAN */}
+          <CustomFormField
+            fieldType={FormFieldType.SELECT}
+            control={form.control}
+            name='primaryPhysician'
+            label='Primary Care Physician'
+            placeholder='Select a physician'
+          >
+            {Doctors.map((doctor, i) => (
+              <SelectItem key={doctor.name + i} value={doctor.name}>
+                <div className='flex cursor-pointer items-center gap-2'>
+                  <Image
+                    src={doctor.image}
+                    alt='doctor'
+                    width={32}
+                    height={32}
+                    className='rounded-full border border-dark-500'
+                  />
+                  <p>{doctor.name}</p>
+                </div>
+              </SelectItem>
+            ))}
+          </CustomFormField>
+
+          {/* INSURANCE & POLICY NUMBER */}
+          <div className='flex flex-col gap-6 xl:flex-row'>
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name='insuranceProvider'
+              label='Insurance Provider'
+              placeholder='BlueCross BlueShield'
+            />
+
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name='insurancePolicyNumber'
+              label='Insurance Policy Number'
+              placeholder='ABC123456789'
+            />
+          </div>
+
+          {/* ALLERGY & CURRENT MEDICATIONS */}
+          <div className='flex flex-col gap-6 xl:flex-row'>
+            <CustomFormField
+              fieldType={FormFieldType.TEXTAREA}
+              control={form.control}
+              name='allergies'
+              label='Allergies (if any)'
+              placeholder='Peanuts, Penicillin, Pollen'
+            />
+
+            <CustomFormField
+              fieldType={FormFieldType.TEXTAREA}
+              control={form.control}
+              name='currentMedication'
+              label='Current Medications'
+              placeholder='Ibuprofen 200mg, Levothyroxine 50mcg'
+            />
+          </div>
+
+          {/* FAMILY MEDICATION & PAST MEDICATIONS */}
+          <div className='flex flex-col gap-6 xl:flex-row'>
+            <CustomFormField
+              fieldType={FormFieldType.TEXTAREA}
+              control={form.control}
+              name='familyMedicalHistory'
+              label=' Family Medical History (if relevant)'
+              placeholder='Mother had brain cancer, Father has hypertension'
+            />
+
+            <CustomFormField
+              fieldType={FormFieldType.TEXTAREA}
+              control={form.control}
+              name='pastMedicalHistory'
+              label='Past Medical History'
+              placeholder='Appendectomy in 2015, Asthma diagnosis in childhood'
             />
           </div>
         </section>

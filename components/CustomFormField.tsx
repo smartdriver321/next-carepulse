@@ -14,6 +14,8 @@ import {
   FormLabel,
   FormMessage,
 } from './ui/form'
+import { Select, SelectContent, SelectTrigger, SelectValue } from './ui/select'
+import { Textarea } from './ui/textarea'
 
 interface CustomProps {
   control: Control<any>
@@ -91,6 +93,32 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       )
     case FormFieldType.SKELETON:
       return props.renderSkeleton ? props.renderSkeleton(field) : null
+    case FormFieldType.SELECT:
+      return (
+        <FormControl>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger className='shad-select-trigger'>
+                <SelectValue placeholder={props.placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent className='shad-select-content'>
+              {props.children}
+            </SelectContent>
+          </Select>
+        </FormControl>
+      )
+    case FormFieldType.TEXTAREA:
+      return (
+        <FormControl>
+          <Textarea
+            placeholder={props.placeholder}
+            {...field}
+            className='shad-textArea'
+            disabled={props.disabled}
+          />
+        </FormControl>
+      )
     default:
       break
   }
