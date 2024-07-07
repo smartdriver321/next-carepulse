@@ -134,6 +134,44 @@ export function RegisterForm({ user }: { user: User }) {
               )}
             />
           </div>
+
+          {/* Address & Occupation */}
+          <div className='flex flex-col gap-6 xl:flex-row'>
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name='address'
+              label='Address'
+              placeholder='14 street, New york, NY - 5101'
+            />
+
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name='occupation'
+              label='Occupation'
+              placeholder=' Software Engineer'
+            />
+          </div>
+
+          {/* Emergency Contact Name & Emergency Contact Number */}
+          <div className='flex flex-col gap-6 xl:flex-row'>
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name='emergencyContactName'
+              label='Emergency Contact Name'
+              placeholder="Guardian's name"
+            />
+
+            <CustomFormField
+              fieldType={FormFieldType.PHONE_INPUT}
+              control={form.control}
+              name='emergencyContactNumber'
+              label='Emergency Contact Number'
+              placeholder='(555) 123-4567'
+            />
+          </div>
         </section>
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
