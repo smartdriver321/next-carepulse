@@ -10,7 +10,10 @@ import { z } from 'zod'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Appointment } from '@/types/appwrite.types'
 import { Doctors } from '@/constants'
-import { createAppointment } from '@/lib/actions/appointment.actions'
+import {
+  createAppointment,
+  updateAppointment,
+} from '@/lib/actions/appointment.actions'
 import { getAppointmentSchema } from '@/lib/validation'
 import CustomFormField from '../CustomFormField'
 import SubmitButton from '../SubmitButton'
@@ -97,6 +100,13 @@ export default function AppointmentForm({
             cancellationReason: values.cancellationReason,
           },
           type,
+        }
+
+        const updatedAppointment = await updateAppointment(appointmentToUpdate)
+
+        if (updatedAppointment) {
+          setOpen && setOpen(false)
+          form.reset()
         }
       }
     } catch (error) {
