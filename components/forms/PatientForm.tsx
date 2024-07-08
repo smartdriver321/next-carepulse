@@ -1,30 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import { z } from 'zod'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
+import 'react-phone-number-input/style.css'
 import { createUser } from '@/lib/actions/patient.actions'
 import { UserFormValidation } from '@/lib/validation'
-import CustomFormField from '../CustomFormField'
+import CustomFormField, { FormFieldType } from '../CustomFormField'
 import SubmitButton from '../SubmitButton'
-import { Form } from '../ui/form'
+import { Form } from '@/components/ui/form'
 
-export enum FormFieldType {
-  INPUT = 'input',
-  TEXTAREA = 'textarea',
-  PHONE_INPUT = 'phoneInput',
-  CHECKBOX = 'checkbox',
-  DATE_PICKER = 'datePicker',
-  SELECT = 'select',
-  SKELETON = 'skeleton',
-}
-
-export function PatientForm() {
+export const PatientForm = () => {
   const router = useRouter()
-
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof UserFormValidation>>({
@@ -36,20 +26,22 @@ export function PatientForm() {
     },
   })
 
-  async function onSubmit({
-    name,
-    email,
-    phone,
-  }: z.infer<typeof UserFormValidation>) {
+  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
     setIsLoading(true)
 
     try {
-      const userData = { name, email, phone }
+      const user = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+      }
 
-      const user = await createUser(userData)
+      const newUser = await createUser(user)
 
-      if (user) {
-        router.push(`/patients/${user.$id}/register`)
+      if (newUser) {
+        console.log(newUser)
+
+        router.push(`/patients/${newUser.$id}/register`)
       }
     } catch (error) {
       console.log(error)
@@ -60,7 +52,7 @@ export function PatientForm() {
 
   return (
     <Form {...form}>
-      <form className='flex-1 space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='flex-1 space-y-6'>
         <section className='mb-12 space-y-4'>
           <h1 className='header'>Hi there 👋</h1>
           <p className='text-dark-700'>Get started with appointments.</p>
@@ -81,7 +73,7 @@ export function PatientForm() {
           control={form.control}
           name='email'
           label='Email'
-          placeholder='email@example.com'
+          placeholder='johndoe@gmail.com'
           iconSrc='/assets/icons/email.svg'
           iconAlt='email'
         />

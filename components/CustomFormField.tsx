@@ -1,11 +1,10 @@
 import Image from 'next/image'
 import { Control } from 'react-hook-form'
-import PhoneInput from 'react-phone-number-input'
 import DatePicker from 'react-datepicker'
+import PhoneInput from 'react-phone-number-input'
 
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-phone-number-input/style.css'
-import { FormFieldType } from './forms/PatientForm'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
 import { Checkbox } from './ui/checkbox'
@@ -17,6 +16,16 @@ import {
   FormLabel,
   FormMessage,
 } from './ui/form'
+
+export enum FormFieldType {
+  INPUT = 'input',
+  TEXTAREA = 'textarea',
+  PHONE_INPUT = 'phoneInput',
+  CHECKBOX = 'checkbox',
+  DATE_PICKER = 'datePicker',
+  SELECT = 'select',
+  SKELETON = 'skeleton',
+}
 
 interface CustomProps {
   control: Control<any>
@@ -84,7 +93,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             <DatePicker
               showTimeSelect={props.showTimeSelect ?? false}
               selected={field.value}
-              onChange={(date: Date) => field.onChange(date)}
+              onChange={(date: Date | any) => field.onChange(date)}
               timeInputLabel='Time:'
               dateFormat={props.dateFormat ?? 'MM/dd/yyyy'}
               wrapperClassName='date-picker'

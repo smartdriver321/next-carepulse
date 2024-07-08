@@ -1,7 +1,6 @@
 'use server'
 
-import { ID, Query } from 'node-appwrite'
-import { InputFile } from 'node-appwrite/file'
+import { ID, InputFile, Query } from 'node-appwrite'
 
 import {
   BUCKET_ID,
@@ -19,16 +18,15 @@ import { parseStringify } from '../utils'
 export const createUser = async (user: CreateUserParams) => {
   try {
     // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
-    const newUser = await users.create(
+    const newuser = await users.create(
       ID.unique(),
       user.email,
       user.phone,
       undefined,
       user.name
     )
-    console.log(newUser)
 
-    return parseStringify(newUser)
+    return parseStringify(newuser)
   } catch (error: any) {
     // Check existing user
     if (error && error?.code === 409) {
@@ -38,6 +36,7 @@ export const createUser = async (user: CreateUserParams) => {
 
       return existingUser.users[0]
     }
+    console.error('An error occurred while creating a new user:', error)
   }
 }
 
@@ -61,11 +60,22 @@ export const registerPatient = async ({
     // Upload file ->  // https://appwrite.io/docs/references/cloud/client-web/storage#createFile
     let file
 
+    // if (identificationDocument) {
+    //   const inputFile = InputFile.fromBuffer(
+    //     identificationDocument?.get('blobFile') as Blob,
+    //     identificationDocument?.get('fileName') as string
+    //   )
+
+    //   file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile)
+    // }
+
     if (identificationDocument) {
-      const inputFile = InputFile.fromBuffer(
-        identificationDocument?.get('blobFile') as Blob,
-        identificationDocument?.get('fileName') as string
-      )
+      const inputFile =
+        identificationDocument &&
+        InputFile.fromBlob(
+          identificationDocument?.get('blobFile') as Blob,
+          identificationDocument?.get('fileName') as string
+        )
 
       file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile)
     }

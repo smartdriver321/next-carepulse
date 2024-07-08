@@ -15,9 +15,8 @@ import {
   updateAppointment,
 } from '@/lib/actions/appointment.actions'
 import { getAppointmentSchema } from '@/lib/validation'
-import CustomFormField from '../CustomFormField'
+import CustomFormField, { FormFieldType } from '../CustomFormField'
 import SubmitButton from '../SubmitButton'
-import { FormFieldType } from './PatientForm'
 import { Form } from '../ui/form'
 import { SelectItem } from '@/components/ui/select'
 

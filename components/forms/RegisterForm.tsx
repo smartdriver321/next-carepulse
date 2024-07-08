@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -14,15 +14,14 @@ import {
   PatientFormDefaultValues,
 } from '@/constants'
 import { PatientFormValidation } from '@/lib/validation'
-import CustomFormField from '../CustomFormField'
+import { registerPatient } from '@/lib/actions/patient.actions'
+import CustomFormField, { FormFieldType } from '../CustomFormField'
 import SubmitButton from '../SubmitButton'
-import { FormFieldType } from './PatientForm'
-import { Form, FormControl } from '../ui/form'
+import { FileUploader } from '../FileUploader'
 import { Label } from '../ui/label'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { SelectItem } from '../ui/select'
-import { FileUploader } from '../FileUploader'
-import { registerPatient } from '@/lib/actions/patient.actions'
+import { Form, FormControl } from '../ui/form'
 
 export function RegisterForm({ user }: { user: User }) {
   const router = useRouter()
