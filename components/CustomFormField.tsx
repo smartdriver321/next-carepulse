@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Control } from 'react-hook-form'
 import DatePicker from 'react-datepicker'
 import PhoneInput from 'react-phone-number-input'
+import { E164Number } from 'libphonenumber-js'
 
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-phone-number-input/style.css'
