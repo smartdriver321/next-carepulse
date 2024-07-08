@@ -1,10 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import * as Sentry from '@sentry/nextjs'
 
 import { Doctors } from '@/constants'
 import { formatDateTime } from '@/lib/utils'
 import { getAppointment } from '@/lib/actions/appointment.actions'
 import { Button } from '@/components/ui/button'
+import { getUser } from '@/lib/actions/patient.actions'
 
 export default async function RequestSuccess({
   searchParams,
@@ -16,6 +18,9 @@ export default async function RequestSuccess({
   const doctor = Doctors.find(
     (doctor) => doctor.name === appointment.primaryPhysician
   )
+  const user = await getUser(userId)
+
+  Sentry.metrics.set('user_view_appointment-success', user.name)
 
   return (
     <div className=' flex h-screen max-h-screen px-[5%]'>
